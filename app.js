@@ -3,6 +3,7 @@ const path=require('path');
 const cors=require('cors');
 const bodyParser=require('body-parser');
 const passport=require('passport');
+const jwt=require('passport-jwt');
 const bcrypt=require('bcryptjs');
 const mongoose=require('mongoose');
 
@@ -32,6 +33,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/users',users);
+
+//passport middleware authentication initialise
+app.use(passport.initialize());
+app.use(passport.session());
 
 //set up static file to hold up client files
 app.use(express.static(path.join(__dirname,'public')));
