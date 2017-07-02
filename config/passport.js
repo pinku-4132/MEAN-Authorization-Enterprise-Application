@@ -1,15 +1,15 @@
-const jwtStratergy=require('passport-jwt').Strategy;
-const extractJwt=require('passport-jwt').ExtractJwt;
+const JwtStratergy=require('passport-jwt').Strategy;
+const ExtractJwt=require('passport-jwt').ExtractJwt;
 
-const config=require('./database');
+const config=require('../config/database');
 const User=require('../models/user');
 
 module.exports=function(passport){
     let opts={};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
     opts.secretOrKey = config.secret;
-    passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-        User.findOne({id: jwt_payload.sub}, function(err, user) {
+    passport.use(new JwtStratergy(opts, (jwt_payload, done)=> {
+        User.getUserById(jwt_payload._doc._id, function(err, user) {
             if (err) {
                 return done(err, false);
             }
